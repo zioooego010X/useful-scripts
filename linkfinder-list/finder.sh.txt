@@ -1,0 +1,19 @@
+while read -r url; do
+
+    echo -e "\e[33m[*] Scanning $url\e[0m"
+    
+
+    echo -e "\e[32m[+] Results from: $url\e[0m"
+
+
+    tmp=$(mktemp)
+    curl -s "$url" -o "$tmp"
+
+
+    python3 /home/Downloads/LinkFinder/linkfinder.py -i "$tmp" -o cli | sed "s|^|    \x1b[36m$url → \x1b[0m|"
+
+
+    rm "$tmp"
+
+    echo -e "\e[34m------------------------------------------------------------\e[0m"
+done < file-input | tee file-output 
